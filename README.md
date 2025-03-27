@@ -5,9 +5,9 @@
 master   (배포용)
              │
              ├── develop   (개발 진행용)
-                            ├── feature/user
-                            ├── feature/survey
-                            ├── feature/post
+                            ├── feat/user
+                            ├── feat/survey
+                            ├── feat/post
 
 **Commit 양식** 
 
