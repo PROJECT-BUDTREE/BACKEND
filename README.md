@@ -1,15 +1,17 @@
-**Git workflow**
+## Git workflow
 
 < 주의 > 절대 master에 merge 하지 말것 !!!!!!!
 
+```
 master   (배포용)
              │
              ├── develop   (개발 진행용)
                             ├── feat/user
                             ├── feat/survey
                             ├── feat/post
+```
 
-**Commit 양식** 
+## Commit 양식
 
 - feat : 새로운 기능 추가
 - fix : 버그 수정
