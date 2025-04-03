@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
     private final PostRepository postRepository;
     private final ReturnMember returnMember;
 
@@ -29,6 +30,9 @@ public class PostService {
     public void createPost(PostRegisterRQ postRegister, CustomMemberDetails customMemberDetails) {
 
         Member member = returnMember.findMemberByUsernameOrTrow(customMemberDetails.getUsername());
+
+        //일기장 저장 전에 Emotion enum 필드들이랑 사용자가 보낸 감정 값이 같은지 판별하는 조건문 넣기
+        //일치하지 않으면 IllegalArgumentException 예외 던지기
 
         Post post = Post.builder()
                 .content(postRegister.content())
@@ -49,6 +53,9 @@ public class PostService {
         if(!post.getMember().getMemberId().equals(member.getMemberId())) {
             throw new IllegalArgumentException("해당 일기장에 대한 수정권한이 없습니다.");
         }
+
+        //일기장 수정 전에 Emotion enum 필드들이랑 사용자가 보낸 감정 값이 같은지 판별하는 조건문 넣기
+        //일치하지 않으면 IllegalArgumentException 예외 던지기
 
         post.updatePost(changeRQ.content(),changeRQ.emotion());
     }
@@ -80,7 +87,7 @@ public class PostService {
         List<Post> posts = postRepository.findLatestPosts(member)
                 .stream()
                 .limit(6)
-                .collect(Collectors.toList());
+                .toList();
 
         List<PostEmotionRP> res = new ArrayList<>();
 
@@ -120,10 +127,13 @@ public class PostService {
                             post.getCreateDate().getMonthValue() == postAllRQ.month())
                     .toList();
         }
+
+        //예외 EntityNotFoundException 으로 처리
         if(filterPost.isEmpty()){
             throw new IllegalArgumentException("해당 날짜에 조회되는 일기장이 존재하지 않습니다.");
         }
-            return filterPost.stream()
+
+        return filterPost.stream()
                     .map(this::convertToPostAllRP)
                     .toList();
         }
