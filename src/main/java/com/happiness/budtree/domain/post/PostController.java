@@ -48,8 +48,6 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success("일기장이 수정되었습니다."));
     }
 
-
-
     //postID 기준으로 조회, 감정, 날짜, 내용만 보여주면 될듯.
     @GetMapping("/find-post/{postId}")
     @Operation(summary = "특정 일기장 조회")
