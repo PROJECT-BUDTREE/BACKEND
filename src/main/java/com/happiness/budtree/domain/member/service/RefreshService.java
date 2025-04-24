@@ -75,11 +75,11 @@ public class RefreshService {
         redisUtil.setDataExpire("AT:" + username, newAccess, 60 * 3L); //redis에 AT 저장
 
 
-        String newRefresh = jwtUtil.createJWT("refresh", username, role, 60 * 3 * 1000L); //24시간 설정
-        redisUtil.setDataExpire("RT:" + username, newRefresh, 60 * 3L); //redis에 RT 저장
+        String newRefresh = jwtUtil.createJWT("refresh", username, role, 60 * 5 * 1000L); //24시간 설정
+        redisUtil.setDataExpire("RT:" + username, newRefresh, 60 * 5L); //redis에 RT 저장
 
         response.setHeader("Authorization", "Bearer " + newAccess);
-        response.addCookie(CookieUtil.createCookie("refresh", newRefresh, 60 * 3));
+        response.addCookie(CookieUtil.createCookie("refresh", newRefresh, 60 * 5));
         return ResponseEntity.ok(ApiResponse.success("Access 토큰 재발급 및 Refresh Rotate 성공"));
 
     }

@@ -51,11 +51,11 @@ public class LoginService {
             redisUtil.setDataExpire("AT:" + memberLoginRequest.username(), access, 60 * 3L); //redis에 AT 저장
 
 
-            String refresh = jwtUtil.createJWT("refresh", username, role, 60 * 3 * 1000L); //24시간 설정
-            redisUtil.setDataExpire("RT:" + memberLoginRequest.username(), refresh, 60 * 3L); //redis에 RT 저장
+            String refresh = jwtUtil.createJWT("refresh", username, role, 60 * 5 * 1000L); //24시간 설정
+            redisUtil.setDataExpire("RT:" + memberLoginRequest.username(), refresh, 60 * 5L); //redis에 RT 저장
 
             response.setHeader("Authorization", "Bearer " + access); //AT는 헤더로 전송
-            response.addCookie(CookieUtil.createCookie("refresh", refresh, 60 * 3)); //RT는 쿠키로 전송
+            response.addCookie(CookieUtil.createCookie("refresh", refresh, 60 * 5)); //RT는 쿠키로 전송
             Member member = returnMember.findMemberByUsernameOrTrow(username);
 
             return ResponseEntity.ok(ApiResponse.success(MemberNameRP.builder()
