@@ -61,16 +61,25 @@ public class RefreshService {
 
         String role = jwtUtil.getRole(refresh);
 
-        String newAccess = jwtUtil.createJWT("access", username, role, 60 * 10 * 1000L); //10분 설정
-        redisUtil.setDataExpire("AT:" + username, newAccess, 60 * 10L); //redis에 AT 저장
+//        String newAccess = jwtUtil.createJWT("access", username, role, 60 * 10 * 1000L); //10분 설정
+//        redisUtil.setDataExpire("AT:" + username, newAccess, 60 * 10L); //redis에 AT 저장
+//
+//
+//        String newRefresh = jwtUtil.createJWT("refresh", username, role, 24 * 60 * 60 * 1000L); //24시간 설정
+//        redisUtil.setDataExpire("RT:" + username, newRefresh, 24 * 60 * 60L); //redis에 RT 저장
+//
+//        response.setHeader("Authorization", "Bearer " + newAccess);
+//        response.addCookie(CookieUtil.createCookie("refresh", newRefresh, 24 * 60 * 60));
+
+        String newAccess = jwtUtil.createJWT("access", username, role, 60 * 3 * 1000L); //10분 설정
+        redisUtil.setDataExpire("AT:" + username, newAccess, 60 * 3L); //redis에 AT 저장
 
 
-        String newRefresh = jwtUtil.createJWT("refresh", username, role, 24 * 60 * 60 * 1000L); //24시간 설정
-        redisUtil.setDataExpire("RT:" + username, newRefresh, 24 * 60 * 60L); //redis에 RT 저장
+        String newRefresh = jwtUtil.createJWT("refresh", username, role, 60 * 3 * 1000L); //24시간 설정
+        redisUtil.setDataExpire("RT:" + username, newRefresh, 60 * 3L); //redis에 RT 저장
 
         response.setHeader("Authorization", "Bearer " + newAccess);
-        response.addCookie(CookieUtil.createCookie("refresh", newRefresh, 24 * 60 * 60));
-
+        response.addCookie(CookieUtil.createCookie("refresh", newRefresh, 60 * 3));
         return ResponseEntity.ok(ApiResponse.success("Access 토큰 재발급 및 Refresh Rotate 성공"));
 
     }
