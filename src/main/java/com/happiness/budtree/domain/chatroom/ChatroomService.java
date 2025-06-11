@@ -33,7 +33,7 @@ public class ChatroomService {
     private final ReturnMember returnMember;
     private final ChatroomRepository chatroomRepository;
     private final MessageRepository messageRepository;
-    private final ChatClient chatClient;
+    private final ChatClientFactory chatClientFactory;
 
     @Value("classpath:templates/gpt-by-survey.st")
     private Resource template;
@@ -103,7 +103,8 @@ public class ChatroomService {
                 .build();
         messageRepository.save(userMessage);
 
-        //5. GPT 에게 요청
+        //5. GPT 에게 사용자의 닉네임을 포함해서 요청
+        ChatClient chatClient = chatClientFactory.chatClient(member.getName());
         String response = chatClient.prompt().user(query).call().content();
 
         //6. GPT 응답 저장
