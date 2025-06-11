@@ -164,7 +164,8 @@ public class ChatroomService {
         promptMessages.add(new UserMessage(query));
         Prompt prompt = new Prompt(promptMessages);
 
-        //6. GPT 에게 요청
+        //6. GPT 에게 닉네임 포함해서 요청
+        ChatClient chatClient = chatClientFactory.chatClient(member.getName());
         String response = chatClient.prompt(prompt).call().content();
 
         //7. GPT 응답 저장
